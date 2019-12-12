@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = {"http://127.0.0.1:5500"})
 @RestController()
 public class TestController {
-
+    List<String> lvlist=new ArrayList<>();
 
     @RequestMapping(value = "/userinfo")
     public Map<String, String> userinfo(HttpServletRequest httpServletRequest) {
@@ -25,6 +28,11 @@ public class TestController {
             resultMap.put("mynumber", (String)httpServletRequest.getSession(true).getAttribute("username"));
         }
         return resultMap;
+    }
+
+    @RequestMapping(value = "/lvlist")
+    public List<String> lvlist(){
+        return lvlist;
     }
 
     @RequestMapping(value = "/login")
@@ -40,6 +48,12 @@ public class TestController {
         }
         return resultMap;
     }
-
-
+    @RequestMapping(value = "/logout")
+    public void logout(HttpServletRequest httpServletRequest){
+        httpServletRequest.getSession().removeAttribute("loginnumber");
+    }
+    @RequestMapping(value = "/addlvli")
+    public void addlvli(String lvli){
+        lvlist.add(lvli);
+    }
 }
